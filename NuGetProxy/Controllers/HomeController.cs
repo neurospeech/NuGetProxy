@@ -19,7 +19,7 @@ namespace NuGetProxy.Controllers
             using (HttpClient client = new HttpClient())
             {
 
-                bool isSecure = Request.IsSecureConnection;
+                //bool isSecure = Request.IsSecureConnection;
 
 
                 var msg = BuildRequest();
@@ -34,11 +34,35 @@ namespace NuGetProxy.Controllers
             }
         }
 
+
+
         HttpRequestMessage BuildRequest() {
             UriBuilder builder = new UriBuilder(Request.Url);
             builder.Host = "www.nuget.org";
             builder.Scheme = "https";
             builder.Port = 143;
+
+            string prefix = "/api/v2/packages(";
+
+            if (builder.Path.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) {
+                string path = builder.Path.Substring(prefix.Length+1);
+                int i = path.IndexOf(')');
+                if (i != -1)
+                {
+                    path = path.Substring(0, i);
+                    path = path.Trim('(', ')');
+                    var tokens = path.Split(',').Select(x => x.Split('=').ToArray()).Select(x => new { Key = x[0], Value=x[1] });
+                    string id = tokens.FirstOrDefault(x => x.Key.Equals("id", StringComparison.OrdinalIgnoreCase)).Value;
+                    string version = tokens.FirstOrDefault(x => x.Key.Equals("version", StringComparison.OrdinalIgnoreCase)).Value;
+
+                    //https://www.nuget.org/api/v2/package/Atoms.js/1.2.882
+
+                    builder.Path = "/api/v2/package/" + id + "/" + version;
+
+                }
+                
+            }
+
             var msg = new HttpRequestMessage(GetMethod(Request.HttpMethod), builder.Uri);
 
             // transfer all headers 
