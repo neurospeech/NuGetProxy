@@ -18,8 +18,9 @@ namespace NuGetProxy.Controllers
 
             using (HttpClientHandler ch = new HttpClientHandler())
             {
-                ch.AutomaticDecompression = System.Net.DecompressionMethods.GZip;
+                ch.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
                 ch.AllowAutoRedirect = true;
+                
                 
                 using (HttpClient client = new HttpClient(ch))
                 {
@@ -81,7 +82,7 @@ namespace NuGetProxy.Controllers
 
                         builder.Path = string.Format("/api/v2/Packages()?$filter=(Id%20eq%20%27{0}%27)and(Version%20eq%20%27{1}%27)",id,version);
 
-                        //throw new Exception("Redirecting to " + builder.ToString());
+                        throw new Exception("Redirecting to " + builder.ToString());
                     }
                     catch (Exception ex)
                     {
