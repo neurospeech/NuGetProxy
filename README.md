@@ -6,7 +6,7 @@ NuGet Server has bug, query Packages(Id=,Version=) fails to get latest version, 
 Steps to use
 
 1. Host this on some live web server with SSL installed.
-2. Modify NuGet.targets file and add custom feed as <PackageSource Include="https://yourserver.com/api/v2/" />
+2. Modify NuGet.targets file and add custom feed as `<PackageSource Include="https://yourserver.com/api/v2/" />`
 
 How does this work?
 
