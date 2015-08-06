@@ -67,7 +67,7 @@ namespace NuGetProxy.Controllers
                         //https://www.nuget.org/api/v2/package/Atoms.js/1.2.882
 
                         id = id.Trim('\'');
-                        version = id.Trim('\'');
+                        version = version.Trim('\'');
 
                         builder.Path = "/api/v2/package/" + id + "/" + version;
 
