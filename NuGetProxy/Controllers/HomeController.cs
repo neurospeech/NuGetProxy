@@ -70,9 +70,9 @@ namespace NuGetProxy.Controllers
 
                         throw new Exception("Redirecting to " + builder.ToString());
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        throw new Exception("Parsing failed path = " + path);
+                        throw new Exception("Parsing failed path = " + path, ex);
                     }
 
                 }
