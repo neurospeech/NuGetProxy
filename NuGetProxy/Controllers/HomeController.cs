@@ -206,6 +206,9 @@ namespace NuGetProxy.Controllers
 
         private void SetCache(HttpCachePolicyBase cache, System.Net.Http.Headers.CacheControlHeaderValue cacheIn)
         {
+            if (cacheIn == null)
+                return;
+
             if (cacheIn.Public)
             {
                 cache.SetCacheability(HttpCacheability.Public);
