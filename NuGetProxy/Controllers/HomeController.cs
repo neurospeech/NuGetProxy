@@ -66,9 +66,12 @@ namespace NuGetProxy.Controllers
 
                         //https://www.nuget.org/api/v2/package/Atoms.js/1.2.882
 
+                        id = id.Trim('\'');
+                        version = id.Trim('\'');
+
                         builder.Path = "/api/v2/package/" + id + "/" + version;
 
-                        throw new Exception("Redirecting to " + builder.ToString());
+                        //throw new Exception("Redirecting to " + builder.ToString());
                     }
                     catch (Exception ex)
                     {
