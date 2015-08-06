@@ -191,6 +191,11 @@ namespace NuGetProxy.Controllers
 
             Response.ContentType = content.Headers.ContentType.ToString();
 
+            foreach (var item in ResponseMessage.Headers)
+            {
+                Response.Headers.Set(item.Key, string.Join(";", item.Value));
+            }
+
             if (ResponseMessage.Headers.Location != null)
             {
                 Response.RedirectLocation = ResponseMessage.Headers.Location.ToString();
