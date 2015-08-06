@@ -56,15 +56,22 @@ namespace NuGetProxy.Controllers
                 int i = path.IndexOf(')');
                 if (i != -1)
                 {
-                    path = path.Substring(0, i);
-                    path = path.Trim('(', ')');
-                    var tokens = path.Split(',').Select(x => x.Split('=').ToArray()).Select(x => new { Key = x[0], Value=x[1] });
-                    string id = tokens.FirstOrDefault(x => x.Key.Equals("id", StringComparison.OrdinalIgnoreCase)).Value;
-                    string version = tokens.FirstOrDefault(x => x.Key.Equals("version", StringComparison.OrdinalIgnoreCase)).Value;
+                    try
+                    {
+                        path = path.Substring(0, i);
+                        path = path.Trim('(', ')');
+                        var tokens = path.Split(',').Select(x => x.Split('=').ToArray()).Select(x => new { Key = x[0], Value = x[1] });
+                        string id = tokens.FirstOrDefault(x => x.Key.Equals("id", StringComparison.OrdinalIgnoreCase)).Value;
+                        string version = tokens.FirstOrDefault(x => x.Key.Equals("version", StringComparison.OrdinalIgnoreCase)).Value;
 
-                    //https://www.nuget.org/api/v2/package/Atoms.js/1.2.882
+                        //https://www.nuget.org/api/v2/package/Atoms.js/1.2.882
 
-                    builder.Path = "/api/v2/package/" + id + "/" + version;
+                        builder.Path = "/api/v2/package/" + id + "/" + version;
+                    }
+                    catch
+                    {
+                        throw new Exception("Parsing failed path = " + path);
+                    }
 
                 }
                 
