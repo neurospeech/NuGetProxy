@@ -104,7 +104,8 @@ namespace NuGetProxy.Controllers
             msg.Headers.Accept.Clear();
             msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
             msg.Headers.AcceptEncoding.Clear();
-            msg.Headers.AcceptEncoding.Add(new System.Net.Http.Headers.StringWithQualityHeaderValue("gzip,deflate"));
+            msg.Headers.AcceptEncoding.Add(new System.Net.Http.Headers.StringWithQualityHeaderValue("gzip"));
+            msg.Headers.AcceptEncoding.Add(new System.Net.Http.Headers.StringWithQualityHeaderValue("deflate"));
 
 
             if (Request.ContentLength > 0)
