@@ -69,7 +69,9 @@ namespace NuGetProxy.Controllers
                         id = id.Trim('\'');
                         version = version.Trim('\'');
 
-                        builder.Path = "/api/v2/package/" + id + "/" + version;
+                        //builder.Path = "/api/v2/package/" + id + "/" + version;
+
+                        builder.Path = string.Format("/api/v2/Packages()?$filter=(Id%20eq%20%27{0}%27)and(Version%20eq%27{1}%27)",id,version);
 
                         //throw new Exception("Redirecting to " + builder.ToString());
                     }
