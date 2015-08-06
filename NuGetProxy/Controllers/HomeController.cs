@@ -34,13 +34,20 @@ namespace NuGetProxy.Controllers
             }
         }
 
+        protected override void OnException(ExceptionContext filterContext)
+        {
+
+
+
+            base.OnException(filterContext);
+        }
 
 
         HttpRequestMessage BuildRequest() {
             UriBuilder builder = new UriBuilder(Request.Url);
             builder.Host = "www.nuget.org";
             builder.Scheme = "https";
-            builder.Port = 143;
+            builder.Port = 443;
 
             string prefix = "/api/v2/packages(";
 
