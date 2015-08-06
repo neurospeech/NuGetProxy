@@ -19,6 +19,7 @@ namespace NuGetProxy.Controllers
             using (HttpClientHandler ch = new HttpClientHandler())
             {
                 ch.AutomaticDecompression = System.Net.DecompressionMethods.GZip;
+                ch.AllowAutoRedirect = true;
                 
                 using (HttpClient client = new HttpClient(ch))
                 {
@@ -78,7 +79,7 @@ namespace NuGetProxy.Controllers
 
                         //builder.Path = "/api/v2/package/" + id + "/" + version;
 
-                        builder.Path = string.Format("/api/v2/Packages()?$filter=(Id%20eq%20%27{0}%27)and(Version%20eq%27{1}%27)",id,version);
+                        builder.Path = string.Format("/api/v2/Packages()?$filter=(Id%20eq%20%27{0}%27)and(Version%20eq%20%27{1}%27)",id,version);
 
                         //throw new Exception("Redirecting to " + builder.ToString());
                     }
@@ -99,6 +100,11 @@ namespace NuGetProxy.Controllers
                 string value = Request.Headers[item];
                 msg.Headers.Add(item, value);
             }
+
+            msg.Headers.Accept.Clear();
+            msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
+            msg.Headers.AcceptEncoding.Clear();
+            msg.Headers.AcceptEncoding.Add(new System.Net.Http.Headers.StringWithQualityHeaderValue("gzip,deflate"));
 
 
             if (Request.ContentLength > 0)
