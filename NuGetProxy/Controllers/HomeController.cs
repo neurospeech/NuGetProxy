@@ -52,7 +52,7 @@ namespace NuGetProxy.Controllers
             string prefix = "/api/v2/packages(";
 
             if (builder.Path.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) {
-                string path = builder.Path.Substring(prefix.Length+1);
+                string path = builder.Path.Substring(prefix.Length);
                 int i = path.IndexOf(')');
                 if (i != -1)
                 {
