@@ -16,21 +16,28 @@ namespace NuGetProxy.Controllers
         public async Task<ActionResult> Index(string all)
         {
 
-            using (HttpClient client = new HttpClient())
+            using (HttpClientHandler ch = new HttpClientHandler())
             {
-
-                //bool isSecure = Request.IsSecureConnection;
-
-
-                var msg = BuildRequest();
+                ch.AutomaticDecompression = System.Net.DecompressionMethods.GZip;
                 
-                //if(isSecure){
-                //    builder.Scheme = "https";
-                //}
+                using (HttpClient client = new HttpClient(ch))
+                {
 
-                var r = await client.SendAsync(msg);
+                    
 
-                return await HttpResponseActionResult.New(r);
+                    //bool isSecure = Request.IsSecureConnection;
+
+
+                    var msg = BuildRequest();
+
+                    //if(isSecure){
+                    //    builder.Scheme = "https";
+                    //}
+
+                    var r = await client.SendAsync(msg);
+
+                    return await HttpResponseActionResult.New(r);
+                }
             }
         }
 
